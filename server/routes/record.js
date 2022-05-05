@@ -17,7 +17,19 @@ recordRoutes.route("/record").get(function (req, res) {
   let db_connect = dbo.getDb("sample_airbnb");
   db_connect
     .collection("listingsAndReviews")
-    .find({})
+    .aggregate([
+      {
+        $search: {
+          index: 'default',
+          text: {
+            query: 'duplex',
+            path: {
+              'wildcard': '*'
+            }
+          }
+        }
+      }
+    ])
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
