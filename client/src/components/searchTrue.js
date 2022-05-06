@@ -25,20 +25,11 @@ export default function Search() {
    console.log("here's the name: ")
    console.log(newPerson.email)
  
-   await fetch("http://localhost:5000/record/add", {
-     method: "POST",
-     headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify(newPerson),
-   })
-   .then(function (response) {
-    console.log("Success");
+   console.log("Success");
     setForm({ name: "", address: "", email: "" });
     let queryUrl = "/query/?&query=" + newPerson.name + "&email=" + newPerson.email
     navigate(queryUrl);
     window.location.reload()
-    })
    .catch(error => {
      window.alert(error);
      return;
