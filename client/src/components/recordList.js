@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const Record = (props) => (
  <tr>
    <td>{props.record.name}</td>
-   <td>{props.record.summary}</td>
-   <td>{props.record.description}</td>
+   <td>{props.record.address}</td>
+   <td>{props.record.email}</td>
    <td>
      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
      <button className="btn btn-link"
@@ -32,6 +32,7 @@ export default function RecordList() {
        window.alert(message);
        return;
      }
+     console.log("here")
  
      const records = await response.json();
      setRecords(records);
@@ -73,8 +74,8 @@ export default function RecordList() {
        <thead>
          <tr>
            <th>Name</th>
-           <th>Summary</th>
-           <th>Description</th>
+           <th>Address</th>
+           <th>Email</th>
            <th>Action</th>
          </tr>
        </thead>

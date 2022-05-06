@@ -4,8 +4,8 @@ import { useNavigate } from "react-router";
 export default function Search() {
  const [form, setForm] = useState({
    name: "",
-   summary: "",
-   description: "",
+   address: "",
+   email: "",
  });
  const navigate = useNavigate();
  
@@ -30,13 +30,17 @@ export default function Search() {
      },
      body: JSON.stringify(newPerson),
    })
+   .then(function (response) {
+    console.log("Success");
+    setForm({ name: "", address: "", email: "" });
+    navigate("/");
+    window.location.reload()
+    })
    .catch(error => {
      window.alert(error);
      return;
    });
  
-   setForm({ name: "", position: "", level: "" });
-   navigate("/");
  }
  
  // This following section will display the form that takes the input from the user.
@@ -55,23 +59,23 @@ export default function Search() {
          />
        </div>
        <div className="form-group">
-         <label htmlFor="summary">Summary</label>
+         <label htmlFor="address">Address</label>
          <input
            type="text"
            className="form-control"
-           id="summary"
-           value={form.summary}
-           onChange={(e) => updateForm({ summary: e.target.value })}
+           id="address"
+           value={form.address}
+           onChange={(e) => updateForm({ address: e.target.value })}
          />
        </div>
        <div className="form-group">
-         <label htmlFor="description">Description</label>
+         <label htmlFor="email">Email</label>
          <input
            type="text"
            className="form-control"
-           id="summary"
-           value={form.description}
-           onChange={(e) => updateForm({ description: e.target.value })}
+           id="email"
+           value={form.email}
+           onChange={(e) => updateForm({ email: e.target.value })}
          />
        </div>
        <div className="form-group">

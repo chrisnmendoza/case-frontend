@@ -14,15 +14,15 @@ const ObjectId = require("mongodb").ObjectId;
 
 // This section will help you get a list of all the records.
 recordRoutes.route("/record").get(function (req, res) {
-  let db_connect = dbo.getDb("sample_airbnb");
+  let db_connect = dbo.getDb("sample_analytics");
   db_connect
-    .collection("listingsAndReviews")
+    .collection("customers")
     .aggregate([
       {
         $search: {
-          index: 'default',
+          index: 'defaulta',
           text: {
-            query: 'duplex',
+            query: 'dana',
             path: {
               'wildcard': '*'
             }
@@ -31,6 +31,7 @@ recordRoutes.route("/record").get(function (req, res) {
       }
     ])
     .toArray(function (err, result) {
+      console.log(result)
       if (err) throw err;
       res.json(result);
     });
@@ -41,7 +42,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
   db_connect
-      .collection("listingsAndReviews")
+      .collection("customers")
       .findOne(myquery, function (err, result) {
         if (err) throw err;
         res.json(result);
@@ -53,10 +54,10 @@ recordRoutes.route("/record/add").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myobj = {
     name: req.body.name,
-    position: req.body.position,
-    level: req.body.level,
+    address: req.body.address,
+    email: req.body.email,
   };
-  db_connect.collection("listingsAndReviews").insertOne(myobj, function (err, res) {
+  db_connect.collection("customers").insertOne(myobj, function (err, res) {
     if (err) throw err;
     response.json(res);
   });
@@ -79,7 +80,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
 recordRoutes.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
-  db_connect.collection("listingsAndReviews").deleteOne(myquery, function (err, obj) {
+  db_connect.collection("customers").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log("1 document deleted");
     response.json(obj);
