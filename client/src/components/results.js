@@ -39,7 +39,7 @@ export default function Results() {
     var params= JSON.stringify(obj);
 
    async function getRecords() {
-     const response = await fetch(`http://localhost:5000/query/fortnite`);
+     const response = await fetch(`http://localhost:5000/query/?query=${uriParams.get("query")}&email=${uriParams.get("email")}`);
      
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;

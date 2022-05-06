@@ -40,9 +40,9 @@ recordRoutes.route("/record").get(function (req, res) {
 
 
 // custom query
-recordRoutes.route("/query/:id").get(function (req, res) {
+recordRoutes.route("/query/").get(function (req, res) {
   console.log("in queryRoute")
-  console.log(req.body.name)
+  console.log(req.query.query)
   let db_connect = dbo.getDb("sample_analytics");
   db_connect
     .collection("customers")
@@ -51,7 +51,7 @@ recordRoutes.route("/query/:id").get(function (req, res) {
         $search: {
           index: 'defaulta',
           text: {
-            query: 'dana',
+            query: req.query.query,
             path: {
               'wildcard': '*'
             }
