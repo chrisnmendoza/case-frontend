@@ -8,6 +8,9 @@ import Navbar from "./components/navbar";
 import RecordList from "./components/recordList";
 import Edit from "./components/edit";
 import Search from "./components/search";
+import SearchTrue from "./components/searchTrue";
+import Results from "./components/results"
+
  
 const App = () => {
  return (
@@ -16,7 +19,8 @@ const App = () => {
      <Routes>
        <Route exact path="/" element={<RecordList />} />
        <Route path="/edit/:id" element={<Edit />} />
-       <Route path="/search" element={<Search />} />
+       <Route path="/search" element={<SearchTrue />} />
+       <Route path="/query/" element={<Results />} />
      </Routes>
    </div>
  );

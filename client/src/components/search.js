@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
  
-export default function Search() {
+export default function SearchTrue() {
  const [form, setForm] = useState({
    name: "",
    address: "",

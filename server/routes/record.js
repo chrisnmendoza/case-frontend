@@ -14,6 +14,8 @@ const ObjectId = require("mongodb").ObjectId;
 
 // This section will help you get a list of all the records.
 recordRoutes.route("/record").get(function (req, res) {
+  console.log("in record.js route")
+  console.log("here's the req: ")
   let db_connect = dbo.getDb("sample_analytics");
   db_connect
     .collection("customers")
@@ -31,11 +33,38 @@ recordRoutes.route("/record").get(function (req, res) {
       }
     ])
     .toArray(function (err, result) {
-      console.log(result)
       if (err) throw err;
       res.json(result);
     });
 });
+
+
+// custom query
+recordRoutes.route("/query/:id").get(function (req, res) {
+  console.log("in queryRoute")
+  console.log(req.body.name)
+  let db_connect = dbo.getDb("sample_analytics");
+  db_connect
+    .collection("customers")
+    .aggregate([
+      {
+        $search: {
+          index: 'defaulta',
+          text: {
+            query: 'dana',
+            path: {
+              'wildcard': '*'
+            }
+          }
+        }
+      }
+    ])
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
 
 // This section will help you get a single record by id
 recordRoutes.route("/record/:id").get(function (req, res) {

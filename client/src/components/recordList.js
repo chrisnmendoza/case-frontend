@@ -32,7 +32,6 @@ export default function RecordList() {
        window.alert(message);
        return;
      }
-     console.log("here")
  
      const records = await response.json();
      setRecords(records);
