@@ -57,7 +57,8 @@ recordRoutes.route("/query/").get(function (req, res) {
             }
           }
         }
-      }
+      },
+      { $match : { email : req.query.email } }
     ])
     .toArray(function (err, result) {
       if (err) throw err;
