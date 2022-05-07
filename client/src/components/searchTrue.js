@@ -21,13 +21,13 @@ export default function Search() {
    e.preventDefault();
  
    // When a post request is sent to the create url, we'll add a new record to the database.
-   const newPerson = { ...form };
+   const codeForm = { ...form };
    console.log("here's the query: ")
-   console.log(newPerson.query)
+   console.log(codeForm.query)
  
    console.log("Success");
     setForm({ query: "", language: "", onlyCode: "" });
-    let queryUrl = "/query/?&query=" + newPerson.query + "&language=" + newPerson.language
+    let queryUrl = "/query/?&query=" + codeForm.query + "&language=" + codeForm.language + "&onlyCode=" + codeForm.onlyCode
     navigate(queryUrl);
     window.location.reload()
    .catch(error => {

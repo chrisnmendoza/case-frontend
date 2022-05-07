@@ -30,16 +30,12 @@ export default function Results() {
     uriParams = new URLSearchParams(uriParams)
     console.log("heres the updated query terms: ")
     console.log(uriParams.get("query"))
-    console.log(uriParams.get("email"))
+    console.log(uriParams.get("language"))
+    console.log(uriParams.get("onlyCode"))
 
-    var obj = new Object();
-    obj.name = "Raj";
-    obj.age  = 32;
-    obj.married = false;
-    var params= JSON.stringify(obj);
 
    async function getRecords() {
-     const response = await fetch(`http://localhost:5000/query/?query=${uriParams.get("query")}&email=${uriParams.get("email")}`);
+     const response = await fetch(`http://localhost:5000/query/?query=${uriParams.get("query")}&language=${uriParams.get("language")}&onlyCode=${uriParams.get("onlyCode")}`);
      
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;
@@ -87,9 +83,9 @@ export default function Results() {
      <table className="table table-striped" style={{ marginTop: 20 }}>
        <thead>
          <tr>
-           <th>Name</th>
-           <th>Address</th>
-           <th>Email</th>
+           <th>Query</th>
+           <th>Language</th>
+           <th>Only Code?</th>
            <th>Action</th>
          </tr>
        </thead>
