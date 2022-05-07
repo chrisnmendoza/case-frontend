@@ -23,15 +23,17 @@ recordRoutes.route("/record").get(function (req, res) {
       {
         $search: {
           index: 'testing',
-          text: {
-            query: 'linux',
-            path: {
-              'wildcard': '*'
+          compound: {
+            must: [{
+              text: {
+                 "query": "linux",
+                 "path": ["comment","title"]
+              }
+            }]
             }
-          }
         }
       },
-      {$limit : 10}
+      {$limit: 10}
     ])
     .toArray(function (err, result) {
       if (err) throw err;
@@ -44,28 +46,76 @@ recordRoutes.route("/record").get(function (req, res) {
 recordRoutes.route("/query/").get(function (req, res) {
   console.log("in queryRoute")
   console.log(req.query.query)
+  console.log(req.query.languages)
   let db_connect = dbo.getDb("myFirstDatabase");
-  db_connect
+  if(req.query.languages.length == 0) {
+    console.log("no language")
+    db_connect
+    .collection("firstRun")
+    .aggregate([
+      {
+        $search: {
+          index : "testing",
+          text: {
+            query: req.query.query,
+            path: ["languages", "title"]
+          }
+        }
+      },
+      {
+        $project: {
+          "title": 1,
+          "languages": 1
+        }
+      },
+      {
+        $limit: 5
+      }
+    ])
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  }
+  else {
+    console.log("put something here i guess")
+    db_connect
     .collection("firstRun")
     .aggregate([
       {
         $search: {
           index: 'testing',
-          text: {
-            query: req.query.query,
-            path: {
-              'wildcard': '*'
+          compound: {
+            must: [{
+              text: {
+                 "query": " ",
+                 "path": ["comment","title"]
+              }
+            }],
+            "should": [
+              {
+                "text": {
+                  "query": "list",
+                  "path": ["comment","title"]
+                }
+              },
+              {
+                "text": {
+                  "query": "array",
+                  "path": ["comment","title"]
+                }
+              }],
+              "minimumShouldMatch": 1
             }
-          }
         }
       },
       {$limit: 10}
     ])
     .toArray(function (err, result) {
-      console.log(result)
       if (err) throw err;
       res.json(result);
     });
+  }
 });
 
 
