@@ -88,21 +88,21 @@ recordRoutes.route("/query/").get(function (req, res) {
           compound: {
             must: [{
               text: {
-                 "query": " ",
+                 "query": req.query.query,
                  "path": ["comment","title"]
               }
             }],
             "should": [
               {
                 "text": {
-                  "query": "list",
-                  "path": ["comment","title"]
+                  "query": " ",
+                  "path": "languages"
                 }
               },
               {
                 "text": {
-                  "query": "array",
-                  "path": ["comment","title"]
+                  "query": "c",
+                  "path": "languages"
                 }
               }],
               "minimumShouldMatch": 1
