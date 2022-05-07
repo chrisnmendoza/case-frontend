@@ -3,9 +3,9 @@ import { useNavigate } from "react-router";
  
 export default function Search() {
  const [form, setForm] = useState({
-   name: "",
-   address: "",
-   email: "",
+   query: "",
+   language: "",
+   onlyCode: "",
  });
  const navigate = useNavigate();
  
@@ -22,12 +22,12 @@ export default function Search() {
  
    // When a post request is sent to the create url, we'll add a new record to the database.
    const newPerson = { ...form };
-   console.log("here's the name: ")
-   console.log(newPerson.email)
+   console.log("here's the query: ")
+   console.log(newPerson.query)
  
    console.log("Success");
-    setForm({ name: "", address: "", email: "" });
-    let queryUrl = "/query/?&query=" + newPerson.name + "&email=" + newPerson.email
+    setForm({ query: "", language: "", onlyCode: "" });
+    let queryUrl = "/query/?&query=" + newPerson.query + "&language=" + newPerson.language
     navigate(queryUrl);
     window.location.reload()
    .catch(error => {
@@ -40,36 +40,36 @@ export default function Search() {
  // This following section will display the form that takes the input from the user.
  return (
    <div>
-     <h3>Search Records</h3>
+     <h3>Search Code</h3>
      <form onSubmit={onSubmit}>
        <div className="form-group">
-         <label htmlFor="name">Name</label>
+         <label htmlFor="query">Query</label>
          <input
            type="text"
            className="form-control"
-           id="name"
-           value={form.name}
-           onChange={(e) => updateForm({ name: e.target.value })}
+           id="query"
+           value={form.query}
+           onChange={(e) => updateForm({ query: e.target.value })}
          />
        </div>
        <div className="form-group">
-         <label htmlFor="address">Address</label>
+         <label htmlFor="language">Language</label>
          <input
            type="text"
            className="form-control"
-           id="address"
-           value={form.address}
-           onChange={(e) => updateForm({ address: e.target.value })}
+           id="language"
+           value={form.language}
+           onChange={(e) => updateForm({ language: e.target.value })}
          />
        </div>
        <div className="form-group">
-         <label htmlFor="email">Email</label>
+         <label htmlFor="onlyCode">Only Code?</label>
          <input
            type="text"
            className="form-control"
-           id="email"
-           value={form.email}
-           onChange={(e) => updateForm({ email: e.target.value })}
+           id="onlyCode"
+           value={form.onlyCode}
+           onChange={(e) => updateForm({ onlyCode: e.target.value })}
          />
        </div>
        <div className="form-group">
