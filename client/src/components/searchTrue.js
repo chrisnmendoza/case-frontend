@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 export default function Search() {
  const [form, setForm] = useState({
    query: "",
-   language: "",
+   languages: "",
    onlyCode: "",
  });
  const navigate = useNavigate();
@@ -26,8 +26,8 @@ export default function Search() {
    console.log(codeForm.query)
  
    console.log("Success");
-    setForm({ query: "", language: "", onlyCode: "" });
-    let queryUrl = "/query/?&query=" + codeForm.query + "&language=" + codeForm.language + "&onlyCode=" + codeForm.onlyCode
+    setForm({ query: "", languages: "", onlyCode: "" });
+    let queryUrl = "/query/?&query=" + codeForm.query + "&languages=" + codeForm.languages + "&onlyCode=" + codeForm.onlyCode
     navigate(queryUrl);
     window.location.reload()
    .catch(error => {
@@ -53,13 +53,13 @@ export default function Search() {
          />
        </div>
        <div className="form-group">
-         <label htmlFor="language">Language</label>
+         <label htmlFor="languages">Languages</label>
          <input
            type="text"
            className="form-control"
-           id="language"
-           value={form.language}
-           onChange={(e) => updateForm({ language: e.target.value })}
+           id="languages"
+           value={form.languages}
+           onChange={(e) => updateForm({ languages: e.target.value })}
          />
        </div>
        <div className="form-group">

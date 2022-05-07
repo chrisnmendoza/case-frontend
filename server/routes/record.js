@@ -22,9 +22,9 @@ recordRoutes.route("/record").get(function (req, res) {
     .aggregate([
       {
         $search: {
-          index: 'defaulta',
+          index: 'testing',
           text: {
-            query: 'dana',
+            query: 'linux',
             path: {
               'wildcard': '*'
             }
@@ -50,7 +50,7 @@ recordRoutes.route("/query/").get(function (req, res) {
     .aggregate([
       {
         $search: {
-          index: 'defaulta',
+          index: 'testing',
           text: {
             query: req.query.query,
             path: {
@@ -62,6 +62,7 @@ recordRoutes.route("/query/").get(function (req, res) {
       {$limit: 10}
     ])
     .toArray(function (err, result) {
+      console.log(result)
       if (err) throw err;
       res.json(result);
     });

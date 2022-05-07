@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
  
 const Record = (props) => (
  <tr>
-   <td>{props.record.name}</td>
-   <td>{props.record.address}</td>
-   <td>{props.record.email}</td>
+   <td>{props.record.title}</td>
+   <td>{props.record.languages}</td>
+   <td>{props.record.onlyCode}</td>
    <td>
      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
      <button className="btn btn-link"
@@ -30,12 +30,12 @@ export default function Results() {
     uriParams = new URLSearchParams(uriParams)
     console.log("heres the updated query terms: ")
     console.log(uriParams.get("query"))
-    console.log(uriParams.get("language"))
+    console.log(uriParams.get("languages"))
     console.log(uriParams.get("onlyCode"))
 
 
    async function getRecords() {
-     const response = await fetch(`http://localhost:5000/query/?query=${uriParams.get("query")}&language=${uriParams.get("language")}&onlyCode=${uriParams.get("onlyCode")}`);
+     const response = await fetch(`http://localhost:5000/query/?&query=${uriParams.get("query")}&languages=${uriParams.get("languages")}&onlyCode=${uriParams.get("onlyCode")}`);
      
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;
@@ -83,8 +83,8 @@ export default function Results() {
      <table className="table table-striped" style={{ marginTop: 20 }}>
        <thead>
          <tr>
-           <th>Query</th>
-           <th>Language</th>
+           <th>Title</th>
+           <th>Languages</th>
            <th>Only Code?</th>
            <th>Action</th>
          </tr>
