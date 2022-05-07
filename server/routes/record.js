@@ -16,9 +16,9 @@ const ObjectId = require("mongodb").ObjectId;
 recordRoutes.route("/record").get(function (req, res) {
   console.log("in record.js route")
   console.log("here's the req: ")
-  let db_connect = dbo.getDb("sample_analytics");
+  let db_connect = dbo.getDb("myFirstDatabase");
   db_connect
-    .collection("customers")
+    .collection("firstRun")
     .aggregate([
       {
         $search: {
@@ -30,7 +30,8 @@ recordRoutes.route("/record").get(function (req, res) {
             }
           }
         }
-      }
+      },
+      {$limit : 10}
     ])
     .toArray(function (err, result) {
       if (err) throw err;
@@ -43,9 +44,9 @@ recordRoutes.route("/record").get(function (req, res) {
 recordRoutes.route("/query/").get(function (req, res) {
   console.log("in queryRoute")
   console.log(req.query.query)
-  let db_connect = dbo.getDb("sample_analytics");
+  let db_connect = dbo.getDb("myFirstDatabase");
   db_connect
-    .collection("customers")
+    .collection("firstRun")
     .aggregate([
       {
         $search: {
@@ -72,7 +73,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
   db_connect
-      .collection("customers")
+      .collection("firstRun")
       .findOne(myquery, function (err, result) {
         if (err) throw err;
         res.json(result);
@@ -87,7 +88,7 @@ recordRoutes.route("/record/add").post(function (req, response) {
     address: req.body.address,
     email: req.body.email,
   };
-  db_connect.collection("customers").insertOne(myobj, function (err, res) {
+  db_connect.collection("firstRun").insertOne(myobj, function (err, res) {
     if (err) throw err;
     response.json(res);
   });
@@ -110,7 +111,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
 recordRoutes.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
-  db_connect.collection("customers").deleteOne(myquery, function (err, obj) {
+  db_connect.collection("firstRun").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log("1 document deleted");
     response.json(obj);
