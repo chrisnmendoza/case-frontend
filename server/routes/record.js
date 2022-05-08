@@ -48,61 +48,32 @@ recordRoutes.route("/query/").get(function (req, res) {
   console.log(req.query.query)
   console.log(req.query.languages)
   let db_connect = dbo.getDb("myFirstDatabase");
-  if(req.query.languages.length == 0) {
-    console.log("no language")
-    db_connect
-    .collection("firstRun")
-    .aggregate([
-      {
-        $search: {
-          index : "testing",
-          text: {
-            query: req.query.query,
-            path: ["languages", "title"]
-          }
-        }
-      },
-      {
-        $project: {
-          "title": 1,
-          "languages": 1
-        }
-      },
-      {
-        $limit: 5
-      }
-    ])
-    .toArray(function (err, result) {
-      if (err) throw err;
-      res.json(result);
-    });
-  }
-  else {
     let myLanguages = req.query.languages.split(" ")
     console.log("myLanguages: " + myLanguages.length)
-    let mySet = []
-    for(let i = 0; i < myLanguages.length - 1; i++) {
-        let myObj = {}
-        myObj.text = {"query":myLanguages[i],"path":"languages"}
-        mySet.push(myObj);
+    let mustSet = []
+    let mustObj = {}
+    mustObj.text = {"query":req.query.query,"path":["comment","title"]}
+    mustSet.push(mustObj)
+    let compoundObj = {}
+    compoundObj.must = mustSet
+    if(req.query.languages.length > 0) {
+      console.log("put something here i guess")
+      let mySet = []
+      for(let i = 0; i < myLanguages.length - 1; i++) {
+          let myObj = {}
+          myObj.text = {"query":myLanguages[i],"path":"languages"}
+          mySet.push(myObj);
+      }
+      compoundObj.should = mySet
+      compoundObj.minimumShouldMatch = 1
     }
-    console.log("put something here i guess")
     db_connect
     .collection("firstRun")
     .aggregate([
       {
         $search: {
           index: 'testing',
-          compound: {
-            must: [{
-              text: {
-                 "query": req.query.query,
-                 "path": ["comment","title"]
-              }
-            }],
-            "should": mySet,
-              "minimumShouldMatch": 1
-            }
+          compound: compoundObj
         }
       },
       {$limit: 10}
@@ -111,7 +82,7 @@ recordRoutes.route("/query/").get(function (req, res) {
       if (err) throw err;
       res.json(result);
     });
-  }
+  //}
 });
 
 
