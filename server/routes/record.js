@@ -78,6 +78,14 @@ recordRoutes.route("/query/").get(function (req, res) {
     });
   }
   else {
+    let myLanguages = req.query.languages.split(" ")
+    console.log("myLanguages: " + myLanguages.length)
+    let mySet = []
+    for(let i = 0; i < myLanguages.length - 1; i++) {
+        let myObj = {}
+        myObj.text = {"query":myLanguages[i],"path":"languages"}
+        mySet.push(myObj);
+    }
     console.log("put something here i guess")
     db_connect
     .collection("firstRun")
@@ -92,19 +100,7 @@ recordRoutes.route("/query/").get(function (req, res) {
                  "path": ["comment","title"]
               }
             }],
-            "should": [
-              {
-                "text": {
-                  "query": " ",
-                  "path": "languages"
-                }
-              },
-              {
-                "text": {
-                  "query": "c",
-                  "path": "languages"
-                }
-              }],
+            "should": mySet,
               "minimumShouldMatch": 1
             }
         }
