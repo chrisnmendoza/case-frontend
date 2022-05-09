@@ -5,7 +5,7 @@ const Record = (props) => (
  <tr>
    <td>{props.record.title}</td>
    <td>{props.record.languages}</td>
-   <td>{props.record.onlyCode}</td>
+   <td>{props.record.firstAnswer}</td>
    <td><a href={props.record.url}>{props.record.url}</a></td>
    <td>
      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
@@ -19,6 +19,25 @@ const Record = (props) => (
    </td>
  </tr>
 );
+
+const Record2 = (props) => (
+  <tr>
+    <td>{props.record.title}</td>
+    <td>{props.record.languages}</td>
+    <td>{props.record.comment}</td>
+    <td><a href={props.record.url}>{props.record.url}</a></td>
+    <td>
+      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
+      <button className="btn btn-link"
+        onClick={() => {
+          props.deleteRecord(props.record._id);
+        }}
+      >
+        Delete
+      </button>
+    </td>
+  </tr>
+ );
  
 export default function RecordList() {
  const [records, setRecords] = useState([]);
@@ -56,6 +75,15 @@ export default function RecordList() {
  // This method will map out the records on the table
  function recordList() {
    return records.map((record) => {
+     if(record.firstAnswer === ""){ 
+      return (
+        <Record2
+          record={record}
+          deleteRecord={() => deleteRecord(record._id)}
+          key={record._id}
+        />
+      );
+     }
      return (
        <Record
          record={record}
@@ -75,7 +103,7 @@ export default function RecordList() {
          <tr>
            <th>Title</th>
            <th>Languages</th>
-           <th>Only Code?</th>
+           <th>Answer</th>
            <th>url</th>
            <th>Action</th>
          </tr>

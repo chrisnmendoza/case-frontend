@@ -5,7 +5,7 @@ const Record = (props) => (
  <tr>
    <td>{props.record.title}</td>
    <td>{props.record.languages}</td>
-   <td>{props.record.onlyCode}</td>
+   <td>{props.record.firstAnswer}</td>
    <td><a href={props.record.url}>{props.record.url}</a></td>
    <td>
      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
@@ -19,16 +19,54 @@ const Record = (props) => (
    </td>
  </tr>
 );
+
+const Record2 = (props) => (
+  <tr>
+    <td>{props.record.title}</td>
+    <td>{props.record.languages}</td>
+    <td>{props.record.onlyCode}</td>
+    <td><a href={props.record.url}>{props.record.url}</a></td>
+    <td>
+      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
+      <button className="btn btn-link"
+        onClick={() => {
+          props.deleteRecord(props.record._id);
+        }}
+      >
+        Delete
+      </button>
+    </td>
+  </tr>
+ );
+
+ const Record3 = (props) => (
+  <tr>
+    <td>{props.record.title}</td>
+    <td>{props.record.languages}</td>
+    <td>{props.record.comment}</td>
+    <td><a href={props.record.url}>{props.record.url}</a></td>
+    <td>
+      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
+      <button className="btn btn-link"
+        onClick={() => {
+          props.deleteRecord(props.record._id);
+        }}
+      >
+        Delete
+      </button>
+    </td>
+  </tr>
+ );
  
 export default function Results() {
  const [records, setRecords] = useState([]);
+ console.log(window.location.href)
+ let uriParams = decodeURI(window.location.href)
+ uriParams = new URLSearchParams(uriParams)
  
  // This method fetches the records from the database.
  useEffect(() => {
     console.log("i am in the function")
-    console.log(window.location.href)
-    let uriParams = decodeURI(window.location.href)
-    uriParams = new URLSearchParams(uriParams)
     console.log("heres the updated query terms: ")
     console.log(uriParams.get("query"))
     console.log(uriParams.get("languages"))
@@ -66,7 +104,27 @@ export default function Results() {
  
  // This method will map out the records on the table
  function recordList() {
+   if(uriParams.get("onlyCode") === "yes") {
+    return records.map((record) => {
+      return (
+        <Record2
+          record={record}
+          deleteRecord={() => deleteRecord(record._id)}
+          key={record._id}
+        />
+      );
+    });
+   }
    return records.map((record) => {
+     if(record.firstAnswer === "") {
+      return (
+        <Record3
+          record={record}
+          deleteRecord={() => deleteRecord(record._id)}
+          key={record._id}
+        />
+      );
+     }
      return (
        <Record
          record={record}
@@ -78,6 +136,28 @@ export default function Results() {
  }
  
  // This following section will display the table with the records of individuals.
+ console.log("hereayo")
+ console.log(uriParams.get("query"))
+ if(uriParams.get("onlyCode") === "yes") {
+  return (
+    <div>
+      <h3>Record List</h3>
+      <table className="table table-striped" style={{ marginTop: 20 }}>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Languages</th>
+            <th>Only Code</th>
+            <th>url</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>{recordList()}</tbody>
+      </table>
+    </div>
+  );
+ }
+
  return (
    <div>
      <h3>Record List</h3>
@@ -86,7 +166,7 @@ export default function Results() {
          <tr>
            <th>Title</th>
            <th>Languages</th>
-           <th>Only Code?</th>
+           <th>Description</th>
            <th>url</th>
            <th>Action</th>
          </tr>
