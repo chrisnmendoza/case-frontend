@@ -49,7 +49,11 @@ recordRoutes.route("/query/").get(function (req, res) {
   console.log(req.query.languages)
   let db_connect = dbo.getDb("code");
     let myLanguages = req.query.languages.split(" ")
+    if(myLanguages.indexOf("c-plus-plus") > -1) {
+      myLanguages[myLanguages.indexOf("c-plus-plus")] = "c++"
+    }
     console.log("myLanguages: " + myLanguages.length)
+    console.log("first lang: " + myLanguages[0])
     let mustSet = []
     let mustObj = {}
     mustObj.text = {"query":req.query.query,"path":["comment","title"]}

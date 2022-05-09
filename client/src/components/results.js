@@ -7,16 +7,6 @@ const Record = (props) => (
    <td>{props.record.languages}</td>
    <td style={{height : "300px", display: "block", overflow: "auto", width: "1000px"}}>{props.record.firstAnswer}</td>
    <td><a href={props.record.url}>{props.record.url}</a></td>
-   <td>
-     <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-     <button className="btn btn-link"
-       onClick={() => {
-         props.deleteRecord(props.record._id);
-       }}
-     >
-       Delete
-     </button>
-   </td>
  </tr>
 );
 
@@ -26,16 +16,6 @@ const Record2 = (props) => (
     <td>{props.record.languages}</td>
     <td>{props.record.onlyCode}</td>
     <td><a href={props.record.url}>{props.record.url}</a></td>
-    <td>
-      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-      <button className="btn btn-link"
-        onClick={() => {
-          props.deleteRecord(props.record._id);
-        }}
-      >
-        Delete
-      </button>
-    </td>
   </tr>
  );
 
@@ -45,16 +25,6 @@ const Record2 = (props) => (
     <td>{props.record.languages}</td>
     <td style={{height : "300px", display: "block", overflow: "auto", width: "1000px"}}>{props.record.comment}</td>
     <td><a href={props.record.url}>{props.record.url}</a></td>
-    <td>
-      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-      <button className="btn btn-link"
-        onClick={() => {
-          props.deleteRecord(props.record._id);
-        }}
-      >
-        Delete
-      </button>
-    </td>
   </tr>
  );
  
@@ -151,7 +121,6 @@ export default function Results() {
             <th>Languages</th>
             <th>Only Code</th>
             <th>url</th>
-            <th>Action</th>
           </tr>
         </thead>
         <tbody style={{"white-space" : "pre-line"}}>{recordList()}</tbody>
@@ -170,7 +139,6 @@ export default function Results() {
            <th>Languages</th>
            <th>Description</th>
            <th>url</th>
-           <th>Action</th>
          </tr>
        </thead>
        <tbody>{recordList()}</tbody>

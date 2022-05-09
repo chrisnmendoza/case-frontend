@@ -7,16 +7,6 @@ const Record = (props) => (
    <td>{props.record.languages}</td>
    <td style={{height : "300px", display: "block", overflow: "auto"}}>{props.record.firstAnswer}</td>
    <td><a href={props.record.url}>{props.record.url}</a></td>
-   <td>
-     <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-     <button className="btn btn-link"
-       onClick={() => {
-         props.deleteRecord(props.record._id);
-       }}
-     >
-       Delete
-     </button>
-   </td>
  </tr>
 );
 
@@ -26,16 +16,6 @@ const Record2 = (props) => (
     <td>{props.record.languages}</td>
     <td style={{height : "300px", display: "block", overflow: "auto"}}>{props.record.comment}</td>
     <td><a href={props.record.url}>{props.record.url}</a></td>
-    <td>
-      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-      <button className="btn btn-link"
-        onClick={() => {
-          props.deleteRecord(props.record._id);
-        }}
-      >
-        Delete
-      </button>
-    </td>
   </tr>
  );
  
@@ -105,7 +85,6 @@ export default function RecordList() {
            <th>Languages</th>
            <th>Answer</th>
            <th>url</th>
-           <th>Action</th>
          </tr>
        </thead>
        <tbody>{recordList()}</tbody>
