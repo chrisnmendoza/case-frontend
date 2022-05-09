@@ -6,6 +6,7 @@ const Record = (props) => (
    <td>{props.record.title}</td>
    <td>{props.record.languages}</td>
    <td>{props.record.onlyCode}</td>
+   <td><a href={props.record.url}>{props.record.url}</a></td>
    <td>
      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
      <button className="btn btn-link"
@@ -86,6 +87,7 @@ export default function Results() {
            <th>Title</th>
            <th>Languages</th>
            <th>Only Code?</th>
+           <th>url</th>
            <th>Action</th>
          </tr>
        </thead>

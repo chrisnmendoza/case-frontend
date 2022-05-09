@@ -16,13 +16,13 @@ const ObjectId = require("mongodb").ObjectId;
 recordRoutes.route("/record").get(function (req, res) {
   console.log("in record.js route")
   console.log("here's the req: ")
-  let db_connect = dbo.getDb("myFirstDatabase");
+  let db_connect = dbo.getDb("code");
   db_connect
-    .collection("firstRun")
+    .collection("secondRun")
     .aggregate([
       {
         $search: {
-          index: 'testing',
+          index: 'secondRun',
           compound: {
             must: [{
               text: {
@@ -47,7 +47,7 @@ recordRoutes.route("/query/").get(function (req, res) {
   console.log("in queryRoute")
   console.log(req.query.query)
   console.log(req.query.languages)
-  let db_connect = dbo.getDb("myFirstDatabase");
+  let db_connect = dbo.getDb("code");
     let myLanguages = req.query.languages.split(" ")
     console.log("myLanguages: " + myLanguages.length)
     let mustSet = []
@@ -68,11 +68,11 @@ recordRoutes.route("/query/").get(function (req, res) {
       compoundObj.minimumShouldMatch = 1
     }
     db_connect
-    .collection("firstRun")
+    .collection("secondRun")
     .aggregate([
       {
         $search: {
-          index: 'testing',
+          index: 'secondRun',
           compound: compoundObj
         }
       },
@@ -91,7 +91,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
   db_connect
-      .collection("firstRun")
+      .collection("secondRun")
       .findOne(myquery, function (err, result) {
         if (err) throw err;
         res.json(result);
@@ -106,7 +106,7 @@ recordRoutes.route("/record/add").post(function (req, response) {
     address: req.body.address,
     email: req.body.email,
   };
-  db_connect.collection("firstRun").insertOne(myobj, function (err, res) {
+  db_connect.collection("secondRun").insertOne(myobj, function (err, res) {
     if (err) throw err;
     response.json(res);
   });
@@ -129,7 +129,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
 recordRoutes.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
-  db_connect.collection("firstRun").deleteOne(myquery, function (err, obj) {
+  db_connect.collection("secondRun").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log("1 document deleted");
     response.json(obj);
