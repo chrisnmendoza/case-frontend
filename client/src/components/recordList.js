@@ -5,7 +5,7 @@ const Record = (props) => (
  <tr>
    <td>{props.record.title}</td>
    <td>{props.record.languages}</td>
-   <td>{props.record.firstAnswer}</td>
+   <td style={{height : "300px", display: "block", overflow: "auto"}}>{props.record.firstAnswer}</td>
    <td><a href={props.record.url}>{props.record.url}</a></td>
    <td>
      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
@@ -24,7 +24,7 @@ const Record2 = (props) => (
   <tr>
     <td>{props.record.title}</td>
     <td>{props.record.languages}</td>
-    <td>{props.record.comment}</td>
+    <td style={{height : "300px", display: "block", overflow: "auto"}}>{props.record.comment}</td>
     <td><a href={props.record.url}>{props.record.url}</a></td>
     <td>
       <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
