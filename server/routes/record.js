@@ -16,21 +16,24 @@ const ObjectId = require("mongodb").ObjectId;
 recordRoutes.route("/record").get(function (req, res) {
   console.log("in record.js route")
   console.log("here's the req: ")
-  let db_connect = dbo.getDb("sample_analytics");
+  let db_connect = dbo.getDb("code");
   db_connect
-    .collection("customers")
+    .collection("secondRun")
     .aggregate([
       {
         $search: {
-          index: 'defaulta',
-          text: {
-            query: 'dana',
-            path: {
-              'wildcard': '*'
+          index: 'secondRun',
+          compound: {
+            must: [{
+              text: {
+                 "query": "linux",
+                 "path": ["comment","title"]
+              }
+            }]
             }
-          }
         }
-      }
+      },
+      {$limit: 10}
     ])
     .toArray(function (err, result) {
       if (err) throw err;
@@ -43,19 +46,34 @@ recordRoutes.route("/record").get(function (req, res) {
 recordRoutes.route("/query/").get(function (req, res) {
   console.log("in queryRoute")
   console.log(req.query.query)
-  let db_connect = dbo.getDb("sample_analytics");
-  db_connect
-    .collection("customers")
+  console.log(req.query.languages)
+  let db_connect = dbo.getDb("code");
+    let myLanguages = req.query.languages.split(" ")
+    console.log("myLanguages: " + myLanguages.length)
+    let mustSet = []
+    let mustObj = {}
+    mustObj.text = {"query":req.query.query,"path":["comment","title"]}
+    mustSet.push(mustObj)
+    let compoundObj = {}
+    compoundObj.must = mustSet
+    if(req.query.languages.length > 0) {
+      console.log("put something here i guess")
+      let mySet = []
+      for(let i = 0; i < myLanguages.length - 1; i++) {
+          let myObj = {}
+          myObj.text = {"query":myLanguages[i],"path":"languages"}
+          mySet.push(myObj);
+      }
+      compoundObj.should = mySet
+      compoundObj.minimumShouldMatch = 1
+    }
+    db_connect
+    .collection("secondRun")
     .aggregate([
       {
         $search: {
-          index: 'defaulta',
-          text: {
-            query: req.query.query,
-            path: {
-              'wildcard': '*'
-            }
-          }
+          index: 'secondRun',
+          compound: compoundObj
         }
       },
       {$limit: 10}
@@ -64,6 +82,7 @@ recordRoutes.route("/query/").get(function (req, res) {
       if (err) throw err;
       res.json(result);
     });
+  //}
 });
 
 
@@ -72,7 +91,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
   db_connect
-      .collection("customers")
+      .collection("secondRun")
       .findOne(myquery, function (err, result) {
         if (err) throw err;
         res.json(result);
@@ -87,7 +106,7 @@ recordRoutes.route("/record/add").post(function (req, response) {
     address: req.body.address,
     email: req.body.email,
   };
-  db_connect.collection("customers").insertOne(myobj, function (err, res) {
+  db_connect.collection("secondRun").insertOne(myobj, function (err, res) {
     if (err) throw err;
     response.json(res);
   });
@@ -110,7 +129,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
 recordRoutes.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
-  db_connect.collection("customers").deleteOne(myquery, function (err, obj) {
+  db_connect.collection("secondRun").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log("1 document deleted");
     response.json(obj);
