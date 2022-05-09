@@ -52,7 +52,22 @@ recordRoutes.route("/query/").get(function (req, res) {
     console.log("myLanguages: " + myLanguages.length)
     let mustSet = []
     let mustObj = {}
-    mustObj.text = {"query":req.query.query,"path":["comment","title"]}
+    //This object will score the query based on its relevance plus its votes and views
+    mustObj.text = 
+    {
+      "query":req.query.query, 
+      "path":["comment","title"],
+      "score":
+      {
+        "function": {
+          "add": [
+            { "path" : "vote"},
+            {"path" : "views"},
+            {"score" : "relevance"}
+          ]
+        }
+      }
+    }
     mustSet.push(mustObj)
     let compoundObj = {}
     compoundObj.must = mustSet
@@ -74,7 +89,7 @@ recordRoutes.route("/query/").get(function (req, res) {
         $search: {
           index: 'secondRun',
           compound: compoundObj
-        }
+        },
       },
       {$limit: 10}
     ])
