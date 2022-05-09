@@ -1,6 +1,7 @@
 # caseFrontend
 to run (find dependencies as you go):    
-need multiselect dependency                         
+need multiselect dependency           
+
 open up two terminals              
 Terminal 1:    
 cd server      
