@@ -62,7 +62,6 @@ recordRoutes.route("/query/").get(function (req, res) {
         "function": {
           "add": [
             { "path" : "vote"},
-            {"path" : "views"},
             {"score" : "relevance"}
           ]
         }
