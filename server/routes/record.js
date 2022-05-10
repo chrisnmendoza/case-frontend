@@ -55,8 +55,6 @@ recordRoutes.route("/query/").get(function (req, res) {
     if(myLanguages.indexOf("c-sharp") > -1) {
       myLanguages[myLanguages.indexOf("c-sharp")] = "c#"
     }
-    console.log("myLanguages: " + myLanguages.length)
-    console.log("first lang: " + myLanguages[0])
     let mustSet = []
     let mustObj = {}
     mustObj.text = {"query":req.query.query,"path":["comment","title"]}
@@ -64,7 +62,6 @@ recordRoutes.route("/query/").get(function (req, res) {
     let compoundObj = {}
     compoundObj.must = mustSet
     if(req.query.languages.length > 0) {
-      console.log("put something here i guess")
       let mySet = []
       for(let i = 0; i < myLanguages.length - 1; i++) {
           let myObj = {}
@@ -88,7 +85,6 @@ recordRoutes.route("/query/").get(function (req, res) {
         let item = myLanguages[i]
         let jsonObj = {}
         jsonObj.languages = item
-        console.log("FORT: " + item + " ")
         langList.push(jsonObj)
       }
       aggList.splice(1,0,{$match : { $or: langList }})
