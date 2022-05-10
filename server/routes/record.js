@@ -49,7 +49,12 @@ recordRoutes.route("/query/").get(function (req, res) {
   console.log(req.query.languages)
   let db_connect = dbo.getDb("code");
     let myLanguages = req.query.languages.split(" ")
-    console.log("myLanguages: " + myLanguages.length)
+    if(myLanguages.indexOf("c-plus-plus") > -1) {
+      myLanguages[myLanguages.indexOf("c-plus-plus")] = "c++"
+    }
+    if(myLanguages.indexOf("c-sharp") > -1) {
+      myLanguages[myLanguages.indexOf("c-sharp")] = "c#"
+    }
     let mustSet = []
     let mustObj = {}
     //This object will score the query based on its relevance plus its votes and views
@@ -71,7 +76,6 @@ recordRoutes.route("/query/").get(function (req, res) {
     let compoundObj = {}
     compoundObj.must = mustSet
     if(req.query.languages.length > 0) {
-      console.log("put something here i guess")
       let mySet = []
       for(let i = 0; i < myLanguages.length - 1; i++) {
           let myObj = {}
@@ -81,17 +85,27 @@ recordRoutes.route("/query/").get(function (req, res) {
       compoundObj.should = mySet
       compoundObj.minimumShouldMatch = 1
     }
+    aggList = []
+    json1 = {}
+    searchObj = {}
+    searchObj.index = 'secondRun'
+    searchObj.compound = compoundObj
+    json1.$search = searchObj
+    aggList[0] = json1
+    aggList[1] = {$limit: 10}
+    if(req.query.languages.length > 0) {
+      let langList = []
+      for(let i = 0; i < myLanguages.length; i++){
+        let item = myLanguages[i]
+        let jsonObj = {}
+        jsonObj.languages = item
+        langList.push(jsonObj)
+      }
+      aggList.splice(1,0,{$match : { $or: langList }})
+    }
     db_connect
     .collection("secondRun")
-    .aggregate([
-      {
-        $search: {
-          index: 'secondRun',
-          compound: compoundObj
-        },
-      },
-      {$limit: 10}
-    ])
+    .aggregate(aggList)
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);

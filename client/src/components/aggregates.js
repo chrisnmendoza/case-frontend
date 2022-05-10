@@ -106,7 +106,7 @@ db.fruit.aggregate([
 .aggregate([
   {
     $search: {
-      index: 'testing',
+      index: 'secondRun',
       compound: {
         must: [{
           text: {
@@ -132,4 +132,22 @@ db.fruit.aggregate([
     }
   },
   {$limit: 10}
+])
+
+.aggregate([
+  {
+    $search: {
+      index: 'secondRun',
+      compound: {
+        must: [{
+          text: {
+             "query": "array",
+             "path": ["comment","title"]
+          }
+        }]
+        }
+    }
+  },
+  {$limit: 10},
+  {$match : { $or: [{ languages: 'c' }, { languages: 'java' }] }}
 ])

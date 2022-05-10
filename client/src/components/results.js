@@ -5,18 +5,8 @@ const Record = (props) => (
  <tr>
    <td>{props.record.title}</td>
    <td>{props.record.languages}</td>
-   <td>{props.record.firstAnswer}</td>
+   <td style={{height : "300px", display: "block", overflow: "auto", width: "1000px"}}>{props.record.firstAnswer}</td>
    <td><a href={props.record.url}>{props.record.url}</a></td>
-   <td>
-     <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-     <button className="btn btn-link"
-       onClick={() => {
-         props.deleteRecord(props.record._id);
-       }}
-     >
-       Delete
-     </button>
-   </td>
  </tr>
 );
 
@@ -26,16 +16,6 @@ const Record2 = (props) => (
     <td>{props.record.languages}</td>
     <td>{props.record.onlyCode}</td>
     <td><a href={props.record.url}>{props.record.url}</a></td>
-    <td>
-      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-      <button className="btn btn-link"
-        onClick={() => {
-          props.deleteRecord(props.record._id);
-        }}
-      >
-        Delete
-      </button>
-    </td>
   </tr>
  );
 
@@ -43,18 +23,8 @@ const Record2 = (props) => (
   <tr>
     <td>{props.record.title}</td>
     <td>{props.record.languages}</td>
-    <td>{props.record.comment}</td>
+    <td style={{height : "300px", display: "block", overflow: "auto", width: "1000px"}}>{props.record.comment}</td>
     <td><a href={props.record.url}>{props.record.url}</a></td>
-    <td>
-      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-      <button className="btn btn-link"
-        onClick={() => {
-          props.deleteRecord(props.record._id);
-        }}
-      >
-        Delete
-      </button>
-    </td>
   </tr>
  );
  
@@ -84,6 +54,8 @@ export default function Results() {
      console.log("here")
  
      const records = await response.json();
+     console.log("here are the records")
+     console.log(records)
      setRecords(records);
    }
  
@@ -149,10 +121,9 @@ export default function Results() {
             <th>Languages</th>
             <th>Only Code</th>
             <th>url</th>
-            <th>Action</th>
           </tr>
         </thead>
-        <tbody>{recordList()}</tbody>
+        <tbody style={{"white-space" : "pre-line"}}>{recordList()}</tbody>
       </table>
     </div>
   );
@@ -161,14 +132,13 @@ export default function Results() {
  return (
    <div>
      <h3>Record List</h3>
-     <table className="table table-striped" style={{ marginTop: 20 }}>
+     <table className="table table-striped" style={{ marginTop: 20}}>
        <thead>
          <tr>
            <th>Title</th>
            <th>Languages</th>
            <th>Description</th>
            <th>url</th>
-           <th>Action</th>
          </tr>
        </thead>
        <tbody>{recordList()}</tbody>

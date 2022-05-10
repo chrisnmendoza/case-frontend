@@ -71,7 +71,7 @@ export default function Search() {
        <div className="form-group">
          <label htmlFor="languages">Languages? (dont enter to search all)</label>
          <Multiselect className="form-group"
-         options={[{name: 'javascript'},{name: 'python'},{name: 'java'},{name: 'c-sharp'},{name: 'php'},{name: 'html'},{name: 'c++'},{name: 'css'},{name: 'sql'},{name: 'r'},{name: 'c'},{name: 'swift'},{name: 'ruby'},{name: 'xml'},{name: 'vba'},{name: 'typescript'},{name: 'bash'},{name: 'scala'},{name: 'powershell'},{name: 'matlab'},{name: 'kotlin'},{name: 'perl'},{name: 'dart'},{name: 'go'},{name: 'haskell'},{name: 'rust'}]} // Options to display in the dropdown
+         options={[{name: 'javascript'},{name: 'python'},{name: 'java'},{name: 'c-sharp'},{name: 'php'},{name: 'html'},{name: 'c-plus-plus'},{name: 'css'},{name: 'sql'},{name: 'r'},{name: 'c'},{name: 'swift'},{name: 'ruby'},{name: 'xml'},{name: 'vba'},{name: 'typescript'},{name: 'bash'},{name: 'scala'},{name: 'powershell'},{name: 'matlab'},{name: 'kotlin'},{name: 'perl'},{name: 'dart'},{name: 'go'},{name: 'haskell'},{name: 'rust'}]} // Options to display in the dropdown
          onSelect={myFunc}//(updateForm({ languages: e[0].name})} // Function will trigger on select event
          onRemove={myFunc} // Function will trigger on remove event
          displayValue="name" // Property name to display in the dropdown options
