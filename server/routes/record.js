@@ -52,6 +52,9 @@ recordRoutes.route("/query/").get(function (req, res) {
     if(myLanguages.indexOf("c-plus-plus") > -1) {
       myLanguages[myLanguages.indexOf("c-plus-plus")] = "c++"
     }
+    if(myLanguages.indexOf("c-sharp") > -1) {
+      myLanguages[myLanguages.indexOf("c-sharp")] = "c#"
+    }
     console.log("myLanguages: " + myLanguages.length)
     console.log("first lang: " + myLanguages[0])
     let mustSet = []
@@ -71,17 +74,28 @@ recordRoutes.route("/query/").get(function (req, res) {
       compoundObj.should = mySet
       compoundObj.minimumShouldMatch = 1
     }
+    aggList = []
+    json1 = {}
+    searchObj = {}
+    searchObj.index = 'secondRun'
+    searchObj.compound = compoundObj
+    json1.$search = searchObj
+    aggList[0] = json1
+    aggList[1] = {$limit: 10}
+    if(req.query.languages.length > 0) {
+      let langList = []
+      for(let i = 0; i < myLanguages.length; i++){
+        let item = myLanguages[i]
+        let jsonObj = {}
+        jsonObj.languages = item
+        console.log("FORT: " + item + " ")
+        langList.push(jsonObj)
+      }
+      aggList.splice(1,0,{$match : { $or: langList }})
+    }
     db_connect
     .collection("secondRun")
-    .aggregate([
-      {
-        $search: {
-          index: 'secondRun',
-          compound: compoundObj
-        }
-      },
-      {$limit: 10}
-    ])
+    .aggregate(aggList)
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
