@@ -57,7 +57,21 @@ recordRoutes.route("/query/").get(function (req, res) {
     }
     let mustSet = []
     let mustObj = {}
-    mustObj.text = {"query":req.query.query,"path":["comment","title"]}
+    //This object will score the query based on its relevance plus its votes and views
+    mustObj.text = 
+    {
+      "query":req.query.query, 
+      "path":["comment","title"],
+      "score":
+      {
+        "function": {
+          "add": [
+            { "path" : "vote"},
+            {"score" : "relevance"}
+          ]
+        }
+      }
+    }
     mustSet.push(mustObj)
     let compoundObj = {}
     compoundObj.must = mustSet

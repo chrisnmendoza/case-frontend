@@ -44,7 +44,7 @@ export default function Results() {
 
 
    async function getRecords() {
-     const response = await fetch(`http://localhost:5000/query/?&query=${uriParams.get("query")}&languages=${uriParams.get("languages")}&onlyCode=${uriParams.get("onlyCode")}`);
+     const response = await fetch(`http://localhost:54321/query/?&query=${uriParams.get("query")}&languages=${uriParams.get("languages")}&onlyCode=${uriParams.get("onlyCode")}`);
      
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;
