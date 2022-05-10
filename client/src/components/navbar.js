@@ -29,7 +29,7 @@ export default function Navbar() {
        <div className="collapse navbar-collapse" id="navbarSupportedContent">
          <ul className="navbar-nav ml-auto">
            <li className="nav-item">
-             <NavLink className="nav-link" to="/search">
+             <NavLink style={{"background-color":"#ffad42"}} className="nav-link" to="/search">
                Search Code
              </NavLink>
            </li>
