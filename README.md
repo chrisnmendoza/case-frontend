@@ -6,7 +6,7 @@ need react multiselect dependency
 can install using: npm i multiselect-react-dropdown
 
 to run:        
-open up two terminals      
+open up two terminals with the project as the directory          
 Terminal 1:    
 cd server      
 node server.js      
