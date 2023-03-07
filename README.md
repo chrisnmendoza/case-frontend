@@ -1,7 +1,6 @@
 # caseFrontend              
 
 Welcome to CASE: the Code Assistant Search Engine!       
-This web app is hosted at: https://codeassistantsearchengine.link/
 
 Dependencies:       
 Need Node.js        
