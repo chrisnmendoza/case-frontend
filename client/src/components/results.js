@@ -44,7 +44,7 @@ export default function Results() {
 
 
    async function getRecords() {
-     const response = await fetch(`http://http://ec2-54-234-142-176.compute-1.amazonaws.com/:54321/query/?&query=${uriParams.get("query")}&languages=${uriParams.get("languages")}&onlyCode=${uriParams.get("onlyCode")}`);
+     const response = await fetch(`http://ec2-54-234-142-176.compute-1.amazonaws.com:54321/query/?&query=${uriParams.get("query")}&languages=${uriParams.get("languages")}&onlyCode=${uriParams.get("onlyCode")}`);
      
      if (!response.ok) {
        const message = `An error occurred: ${response.statusText}`;
@@ -66,7 +66,7 @@ export default function Results() {
  
  // This method will delete a record
  async function deleteRecord(id) {
-   await fetch(`http://http://ec2-54-234-142-176.compute-1.amazonaws.com/:5000/${id}`, {
+   await fetch(`http://ec2-54-234-142-176.compute-1.amazonaws.com:54321/${id}`, {
      method: "DELETE"
    });
  
