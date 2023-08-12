@@ -45,7 +45,13 @@ recordRoutes.route("/record").get(function (req, res) {
 // custom query
 recordRoutes.route("/query/").get(function (req, res) {
   console.log("in queryRoute")
-  console.log(req.query.query)
+  if(req.query.query.length === 0) {
+    console.log("NO QUERY GIVEN, DEFAULTING TO REVERSE LINKED LIST")
+    req.query.query = "how to reverse a linked list"
+  }
+  else {
+    console.log(req.query.query)
+  }
   console.log(req.query.languages)
   let db_connect = dbo.getDb("code");
     let myLanguages = req.query.languages.split(" ")
