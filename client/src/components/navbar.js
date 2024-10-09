@@ -11,8 +11,8 @@ export default function Navbar() {
  return (
    <div>
      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-       <NavLink className="navbar-brand" to="/">
-       <img style={{"width" : 25 + '%'}} src="/case.PNG"></img>
+       <NavLink className="navbar-brand" to="/" style={{"width" : "17%", "height": "17%"}}>
+       <img src="/case.PNG" style={{"object-fit": "cover", "width": "100%", "height": "100%"}}></img>
        </NavLink>
        <button
          className="navbar-toggler"
@@ -25,11 +25,13 @@ export default function Navbar() {
        >
          <span className="navbar-toggler-icon"></span>
        </button>
+
+       <div className="padded space" id="navbarPaddedSpace" style={{"width": "25%", "height": "25%"}}></div>
  
        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-         <ul className="navbar-nav ml-auto">
-           <li className="nav-item">
-             <NavLink className="nav-link" to="/search">
+         <ul className="navbar-nav ml-auto" style={{"border-width": "2px", "border-style": "groove", "border-color": "black", "border-radius": "20px", "height": "15%", "width": "20%"}}>
+           <li className="nav-item" style={{"height": "100%", "width": "100%"}}>
+             <NavLink className="nav-link" to="/search" style={{"font-size": "150%", "text-align": "center"}}>
                Search Code
              </NavLink>
            </li>
